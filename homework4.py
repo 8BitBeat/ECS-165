@@ -140,16 +140,12 @@ with open('/home/cjnitta/ecs165a/HHV2PUB.CSV', 'r') as csvfile:
 		
 	for row in reader:
 		count += 1
-		inc = 0
 		for element in row:
-			# if element == 'XXXX' or element == 'XXXXX':
-			# 	element = -2
-			# if inc == 13 or inc == 33:
+
 			if any(c.isalpha() for c in str(element)):
 				query += "'" + str(element) + "', "  
 			else:
 				query += str(element) +', '
-			inc +=1
 		query = query[:-2] + '), ('
 	  
 		#insert every 1000 tuples into the relation
@@ -170,46 +166,46 @@ with open('/home/cjnitta/ecs165a/HHV2PUB.CSV', 'r') as csvfile:
 			print "bad 2"
 
 
-# with open('/home/cjnitta/ecs165a/DAYV2PUB.CSV', 'r') as csvfile:
-#     print "Day"
-#     cur.execute("CREATE TABLE Daytrip(HOUSEID int, PERSONID int, FRSTHM int, OUTOFTWN int, ONTD_P1 int, ONTD_P2 int, ONTD_P3 int, ONTD_P4 int, ONTD_P5 int, ONTD_P6 int, ONTD_P7 int, ONTD_P8 int, ONTD_P9 int, ONTD_P10 int, ONTD_P11 int, ONTD_P12 int, ONTD_P13 int, ONTD_P14 int, ONTD_P15 int, TDCASEID int, HH_HISP int, HH_RACE int, DRIVER int, R_SEX int, WORKER int, DRVRCNT int, HHFAMINC int, HHSIZE int, HHVEHCNT int, NUMADLT int, FLAG100 int, LIF_CYC int, TRIPPURP varchar(8), AWAYHOME int, CDIVMSAR int, CENSUS_D int, CENSUS_R int, DROP_PRK int, DRVR_FLG int, EDUC int, ENDTIME int, HH_ONTD int, HHMEMDRV int, HHRESP int, HHSTATE varchar(2), HHSTFIPS int, INTSTATE int, MSACAT int, MSASIZE int, NONHHCNT int, NUMONTRP int, PAYTOLL int, PRMACT int, PROXY int, PSGR_FLG int, R_AGE int, RAIL int, STRTTIME int, TRACC1 int, TRACC2 int, TRACC3 int, TRACC4 int, TRACC5 int, TRACCTM int, TRAVDAY int, TREGR1 int, TREGR2 int, TREGR3 int, TREGR4 int, TREGR5 int, TREGRTM int, TRPACCMP int, TRPHHACC int, TRPHHVEH int, TRPTRANS int, TRVL_MIN int, TRVLCMIN int, TRWAITTM int, URBAN int, URBANSIZE int, URBRUR int, USEINTST int, USEPUBTR int, VEHID int, WHODROVE int, WHYFROM int, WHYTO int, WHYTRP1S int, WRKCOUNT int, DWELTIME int, WHYTRP90 int, TDTRPNUM int, TDWKND int, TDAYDATE int, TRPMILES int, WTTRDFIN varchar(20), VMT_MILE int, PUBTRANS int, HOMEOWN int, HOMETYPE int, HBHUR varchar(2), HTRESDN int, HTHTNRNT int, HTPPOPDN int, HTEEMPDN int, HBRESDN int, HBHTNRNT int, HBPPOPDN int, GASPRICE varchar(20), VEHTYPE int, HH_CBSA varchar(5), HHC_MSA varchar(5));")
+with open('/home/cjnitta/ecs165a/DAYV2PUB.CSV', 'r') as csvfile:
+    print "Day"
+    cur.execute("CREATE TABLE Daytrip(HOUSEID int, PERSONID int, FRSTHM int, OUTOFTWN int, ONTD_P1 int, ONTD_P2 int, ONTD_P3 int, ONTD_P4 int, ONTD_P5 int, ONTD_P6 int, ONTD_P7 int, ONTD_P8 int, ONTD_P9 int, ONTD_P10 int, ONTD_P11 int, ONTD_P12 int, ONTD_P13 int, ONTD_P14 int, ONTD_P15 int, TDCASEID bigint, HH_HISP int, HH_RACE int, DRIVER int, R_SEX int, WORKER int, DRVRCNT int, HHFAMINC int, HHSIZE int, HHVEHCNT int, NUMADLT int, FLAG100 int, LIF_CYC int, TRIPPURP varchar(8), AWAYHOME int, CDIVMSAR int, CENSUS_D int, CENSUS_R int, DROP_PRK int, DRVR_FLG int, EDUC int, ENDTIME int, HH_ONTD int, HHMEMDRV int, HHRESP int, HHSTATE varchar(2), HHSTFIPS int, INTSTATE int, MSACAT int, MSASIZE int, NONHHCNT int, NUMONTRP int, PAYTOLL int, PRMACT int, PROXY int, PSGR_FLG int, R_AGE int, RAIL int, STRTTIME int, TRACC1 int, TRACC2 int, TRACC3 int, TRACC4 int, TRACC5 int, TRACCTM int, TRAVDAY int, TREGR1 int, TREGR2 int, TREGR3 int, TREGR4 int, TREGR5 int, TREGRTM int, TRPACCMP int, TRPHHACC int, TRPHHVEH int, TRPTRANS int, TRVL_MIN int, TRVLCMIN int, TRWAITTM int, URBAN int, URBANSIZE int, URBRUR int, USEINTST int, USEPUBTR int, VEHID int, WHODROVE int, WHYFROM int, WHYTO int, WHYTRP1S int, WRKCOUNT int, DWELTIME int, WHYTRP90 int, TDTRPNUM int, TDWKND int, TDAYDATE int, TRPMILES int, WTTRDFIN varchar(20), VMT_MILE int, PUBTRANS int, HOMEOWN int, HOMETYPE int, HBHUR varchar(2), HTRESDN int, HTHTNRNT int, HTPPOPDN int, HTEEMPDN int, HBRESDN int, HBHTNRNT int, HBPPOPDN int, GASPRICE varchar(20), VEHTYPE int, HH_CBSA varchar(5), HHC_MSA varchar(5));")
 	
-#     reader = csv.reader(csvfile)
-#     headings = reader.next()
-#     query = "INSERT INTO Daytrip(HOUSEID, PERSONID, FRSTHM, OUTOFTWN, ONTD_P1, ONTD_P2, ONTD_P3, ONTD_P4, ONTD_P5, ONTD_P6, ONTD_P7, ONTD_P8, ONTD_P9, ONTD_P10, ONTD_P11, ONTD_P12, ONTD_P13, ONTD_P14, ONTD_P15, TDCASEID, HH_HISP, HH_RACE, DRIVER, R_SEX, WORKER, DRVRCNT, HHFAMINC, HHSIZE, HHVEHCNT, NUMADLT, FLAG100, LIF_CYC, TRIPPURP, AWAYHOME, CDIVMSAR, CENSUS_D, CENSUS_R, DROP_PRK, DRVR_FLG, EDUC, ENDTIME, HH_ONTD, HHMEMDRV, HHRESP, HHSTATE, HHSTFIPS, INTSTATE, MSACAT, MSASIZE, NONHHCNT, NUMONTRP, PAYTOLL, PRMACT, PROXY, PSGR_FLG, R_AGE, RAIL, STRTTIME, TRACC1, TRACC2, TRACC3, TRACC4, TRACC5, TRACCTM, TRAVDAY, TREGR1, TREGR2, TREGR3, TREGR4, TREGR5, TREGRTM, TRPACCMP, TRPHHACC, TRPHHVEH, TRPTRANS, TRVL_MIN, TRVLCMIN, TRWAITTM, URBAN, URBANSIZE, URBRUR, USEINTST, USEPUBTR, VEHID, WHODROVE, WHYFROM, WHYTO, WHYTRP1S, WRKCOUNT, DWELTIME, WHYTRP90, TDTRPNUM, TDWKND, TDAYDATE, TRPMILES, WTTRDFIN, VMT_MILE, PUBTRANS, HOMEOWN, HOMETYPE, HBHUR, HTRESDN, HTHTNRNT, HTPPOPDN, HTEEMPDN, HBRESDN, HBHTNRNT, HBPPOPDN, GASPRICE, VEHTYPE, HH_CBSA, HHC_MSA) VALUES ( "
-#     count = 0
+    reader = csv.reader(csvfile)
+    headings = reader.next()
+    query = "INSERT INTO Daytrip(HOUSEID, PERSONID, FRSTHM, OUTOFTWN, ONTD_P1, ONTD_P2, ONTD_P3, ONTD_P4, ONTD_P5, ONTD_P6, ONTD_P7, ONTD_P8, ONTD_P9, ONTD_P10, ONTD_P11, ONTD_P12, ONTD_P13, ONTD_P14, ONTD_P15, TDCASEID, HH_HISP, HH_RACE, DRIVER, R_SEX, WORKER, DRVRCNT, HHFAMINC, HHSIZE, HHVEHCNT, NUMADLT, FLAG100, LIF_CYC, TRIPPURP, AWAYHOME, CDIVMSAR, CENSUS_D, CENSUS_R, DROP_PRK, DRVR_FLG, EDUC, ENDTIME, HH_ONTD, HHMEMDRV, HHRESP, HHSTATE, HHSTFIPS, INTSTATE, MSACAT, MSASIZE, NONHHCNT, NUMONTRP, PAYTOLL, PRMACT, PROXY, PSGR_FLG, R_AGE, RAIL, STRTTIME, TRACC1, TRACC2, TRACC3, TRACC4, TRACC5, TRACCTM, TRAVDAY, TREGR1, TREGR2, TREGR3, TREGR4, TREGR5, TREGRTM, TRPACCMP, TRPHHACC, TRPHHVEH, TRPTRANS, TRVL_MIN, TRVLCMIN, TRWAITTM, URBAN, URBANSIZE, URBRUR, USEINTST, USEPUBTR, VEHID, WHODROVE, WHYFROM, WHYTO, WHYTRP1S, WRKCOUNT, DWELTIME, WHYTRP90, TDTRPNUM, TDWKND, TDAYDATE, TRPMILES, WTTRDFIN, VMT_MILE, PUBTRANS, HOMEOWN, HOMETYPE, HBHUR, HTRESDN, HTHTNRNT, HTPPOPDN, HTEEMPDN, HBRESDN, HBHTNRNT, HBPPOPDN, GASPRICE, VEHTYPE, HH_CBSA, HHC_MSA) VALUES ( "
+    count = 0
+    altCount = 0
 
-#     for row in reader:
-#         count += 1
-#         inc = 0
-#         for element in row:
-#             # if element == 'XXXX' or element == 'XXXXX':
-#             #     element = -2
-#             # if inc == 48 or inc == 98 or inc == 107:
-#             if any(c.isalpha() for c in str(element)):
-#                 query += "'" + str(element) + "', "  
-#             else:
-#                 query += str(element) +', '
-#             inc +=1
-#         query = query[:-2] + '), ('
+    for row in reader:
+        count += 1
+        altCount +=1
+        for element in row:
+            #if any element is a character we should
+            if any(c.isalpha() for c in str(element)):
+                query += "'" + str(element) + "', "  
+            else:
+                query += str(element) +', '
+        query = query[:-2] + '), ('
 	  
-#         #insert every 1000 tuples into the relation
-#         if count == 1000: 
-#             query = query[:-3] + ';'
-#             try:
-#                 cur.execute(query)
-#             except:
-#                 print "bad 3"
+        #insert every 1000 tuples into the relation
+        if count == 1000:	
+            query = query[:-3] + ';'
+            # print altCount
+            # print query
+            try:
+                cur.execute(query)
+            except:
+                print "bad 3"
 
-#             query = "INSERT INTO Daytrip(HOUSEID, PERSONID, FRSTHM, OUTOFTWN, ONTD_P1, ONTD_P2, ONTD_P3, ONTD_P4, ONTD_P5, ONTD_P6, ONTD_P7, ONTD_P8, ONTD_P9, ONTD_P10, ONTD_P11, ONTD_P12, ONTD_P13, ONTD_P14, ONTD_P15, TDCASEID, HH_HISP, HH_RACE, DRIVER, R_SEX, WORKER, DRVRCNT, HHFAMINC, HHSIZE, HHVEHCNT, NUMADLT, FLAG100, LIF_CYC, TRIPPURP, AWAYHOME, CDIVMSAR, CENSUS_D, CENSUS_R, DROP_PRK, DRVR_FLG, EDUC, ENDTIME, HH_ONTD, HHMEMDRV, HHRESP, HHSTATE, HHSTFIPS, INTSTATE, MSACAT, MSASIZE, NONHHCNT, NUMONTRP, PAYTOLL, PRMACT, PROXY, PSGR_FLG, R_AGE, RAIL, STRTTIME, TRACC1, TRACC2, TRACC3, TRACC4, TRACC5, TRACCTM, TRAVDAY, TREGR1, TREGR2, TREGR3, TREGR4, TREGR5, TREGRTM, TRPACCMP, TRPHHACC, TRPHHVEH, TRPTRANS, TRVL_MIN, TRVLCMIN, TRWAITTM, URBAN, URBANSIZE, URBRUR, USEINTST, USEPUBTR, VEHID, WHODROVE, WHYFROM, WHYTO, WHYTRP1S, WRKCOUNT, DWELTIME, WHYTRP90, TDTRPNUM, TDWKND, TDAYDATE, TRPMILES, WTTRDFIN, VMT_MILE, PUBTRANS, HOMEOWN, HOMETYPE, HBHUR, HTRESDN, HTHTNRNT, HTPPOPDN, HTEEMPDN, HBRESDN, HBHTNRNT, HBPPOPDN, GASPRICE, VEHTYPE, HH_CBSA, HHC_MSA) VALUES ( "
-#             count = 0
+            query = "INSERT INTO Daytrip(HOUSEID, PERSONID, FRSTHM, OUTOFTWN, ONTD_P1, ONTD_P2, ONTD_P3, ONTD_P4, ONTD_P5, ONTD_P6, ONTD_P7, ONTD_P8, ONTD_P9, ONTD_P10, ONTD_P11, ONTD_P12, ONTD_P13, ONTD_P14, ONTD_P15, TDCASEID, HH_HISP, HH_RACE, DRIVER, R_SEX, WORKER, DRVRCNT, HHFAMINC, HHSIZE, HHVEHCNT, NUMADLT, FLAG100, LIF_CYC, TRIPPURP, AWAYHOME, CDIVMSAR, CENSUS_D, CENSUS_R, DROP_PRK, DRVR_FLG, EDUC, ENDTIME, HH_ONTD, HHMEMDRV, HHRESP, HHSTATE, HHSTFIPS, INTSTATE, MSACAT, MSASIZE, NONHHCNT, NUMONTRP, PAYTOLL, PRMACT, PROXY, PSGR_FLG, R_AGE, RAIL, STRTTIME, TRACC1, TRACC2, TRACC3, TRACC4, TRACC5, TRACCTM, TRAVDAY, TREGR1, TREGR2, TREGR3, TREGR4, TREGR5, TREGRTM, TRPACCMP, TRPHHACC, TRPHHVEH, TRPTRANS, TRVL_MIN, TRVLCMIN, TRWAITTM, URBAN, URBANSIZE, URBRUR, USEINTST, USEPUBTR, VEHID, WHODROVE, WHYFROM, WHYTO, WHYTRP1S, WRKCOUNT, DWELTIME, WHYTRP90, TDTRPNUM, TDWKND, TDAYDATE, TRPMILES, WTTRDFIN, VMT_MILE, PUBTRANS, HOMEOWN, HOMETYPE, HBHUR, HTRESDN, HTHTNRNT, HTPPOPDN, HTEEMPDN, HBRESDN, HBHTNRNT, HBPPOPDN, GASPRICE, VEHTYPE, HH_CBSA, HHC_MSA) VALUES ( "
+            count = 0
 
-#     if count > 0:
-#         query = query[:-3] + ';'
-#         try:
-#             cur.execute(query)
-#         except:
-#             print "bad 4"
+    if count > 0:
+        query = query[:-3] + ';'
+        try:
+            cur.execute(query)
+        except:
+            print "bad 4"
 
 with open('/home/cjnitta/ecs165a/VEHV2PUB.CSV', 'r') as csvfile:
 	print "vehicle"
@@ -253,10 +249,9 @@ with open('/home/cjnitta/ecs165a/PERV2PUB.CSV', 'r') as csvfile:
 	headings = reader.next()
 	query = "INSERT INTO Person(HOUSEID, PERSONID, VARSTRAT, WTPERFIN, SFWGT, HH_HISP, HH_RACE, DRVRCNT, HHFAMINC, HHSIZE, HHVEHCNT, NUMADLT, WRKCOUNT, FLAG100, LIF_CYC, CNTTDTR, BORNINUS, CARRODE, CDIVMSAR, CENSUS_D, CENSUS_R, CONDNIGH, CONDPUB, CONDRIDE, CONDRIVE, CONDSPEC, CONDTAX, CONDTRAV, DELIVER, DIARY, DISTTOSC, DRIVER, DTACDT, DTCONJ, DTCOST, DTRAGE, DTRAN, DTWALK, EDUC, EVERDROV, FLEXTIME, FMSCSIZE, FRSTHM, FXDWKPL, GCDWORK, GRADE, GT1JBLWK, HHRESP, HHSTATE, HHSTFIPS, ISSUE, OCCAT, LSTTRDAY, MCUSED, MEDCOND, MEDCOND6, MOROFTEN, MSACAT, MSASIZE, NBIKETRP, NWALKTRP, OUTCNTRY, OUTOFTWN, PAYPROF, PRMACT, PROXY, PTUSED, PURCHASE, R_AGE, R_RELAT, R_SEX, RAIL, SAMEPLC, SCHCARE, SCHCRIM, SCHDIST, SCHSPD, SCHTRAF, SCHTRN1, SCHTRN2, SCHTYP, SCHWTHR, SELF_EMP, TIMETOSC, TIMETOWK, TOSCSIZE, TRAVDAY, URBAN, URBANSIZE, URBRUR, USEINTST, USEPUBTR, WEBUSE, WKFMHMXX, WKFTPT, WKRMHM, WKSTFIPS, WORKER, WRKTIME, WRKTRANS, YEARMILE, YRMLCAP, YRTOUS, DISTTOWK, TDAYDATE, HOMEOWN, HOMETYPE, HBHUR, HTRESDN, HTHTNRNT, HTPPOPDN, HTEEMPDN, HBRESDN, HBHTNRNT, HBPPOPDN, HH_CBSA, HHC_MSA) VALUES ( "
 	count = 0
-	altCount = 0
+	
 	for row in reader:
 		count += 1
-		altCount += 1
 		for element in row:
 			if any(c.isalpha() for c in str(element)):
 				query += "'" + str(element) + "', "  
