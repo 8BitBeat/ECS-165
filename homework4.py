@@ -8,12 +8,12 @@ conn = psycopg2.connect("dbname=postgres host=/home/" + os.environ['USER'] + "/p
 cur = conn.cursor()
 
 with open('/home/cjnitta/ecs165a/EIA_CO2_Electricity_2015.csv', 'r') as csvfile:
-	cur.execute("CREATE TABLE electricity( MSN varchar(20), YYYYMM int, Value varchar(20));")    
-	cur.execute("CREATE TABLE electricity_misc(MSN varchar(20), Column_Order varchar(5), Description varchar(100), Unit varchar(50));")
+	cur.execute("CREATE TABLE electricity( MSN varchar(20), YYYYMM int, Value varchar(20), PK_electricity PRIMARY KEY (MSN, YYYYMM), FK_electricity_em FOREIGN KEY (MSN) REFERENCES electricity_misc (MSN));")    
+	cur.execute("CREATE TABLE electricity_misc(MSN varchar(20), Column_Order varchar(5), Description varchar(100), Unit varchar(50), PK_electricity_misc PRIMARY KEY (MSN));")
   
 	reader = csv.reader(csvfile)
 	headings = reader.next()
-	query = 'INSERT INTO electricity ( MSN, YYYYMM, Value ) VALUES '
+	query = 'INSERT INTO electricity ( MSN, YYYYMM, Value ) VALUES ' 
 	misc_query = 'INSERT INTO electricity_misc ( MSN, Column_Order, Description, Unit ) VALUES '
 	count = 0
 
@@ -52,8 +52,8 @@ with open('/home/cjnitta/ecs165a/EIA_CO2_Electricity_2015.csv', 'r') as csvfile:
 	cur.execute(misc_query)   
 
 with open('/home/cjnitta/ecs165a/EIA_CO2_Transportation_2015.csv', 'r') as csvfile:
-	cur.execute("CREATE TABLE transportation( MSN varchar(20), YYYYMM int, Value varchar(20));")    
-	cur.execute("CREATE TABLE transportation_misc(MSN varchar(20), Column_Order varchar(5), Description varchar(100), Unit varchar(50));")
+	cur.execute("CREATE TABLE transportation( MSN varchar(20), YYYYMM int, Value varchar(20), PK_transporation PRIMARY KEY (MSN, YYYYMM), FK_transportation_tm FOREIGN KEY (MSN) REFERENCES transportation_misc(MSN));")    
+	cur.execute("CREATE TABLE transportation_misc(MSN varchar(20), Column_Order varchar(5), Description varchar(100), Unit varchar(50), PK_transportation_misc PRIMARY KEY (MSN));")
   
 	reader = csv.reader(csvfile)
 	headings = reader.next()
@@ -91,8 +91,8 @@ with open('/home/cjnitta/ecs165a/EIA_CO2_Transportation_2015.csv', 'r') as csvfi
 	cur.execute(misc_query)   
 
 with open('/home/cjnitta/ecs165a/EIA_MkWh_2015.csv', 'r') as csvfile:
-	cur.execute("CREATE TABLE mkwh( MSN varchar(20), YYYYMM int, Value varchar(20));")    
-	cur.execute("CREATE TABLE mkwh_misc(MSN varchar(20), Column_Order varchar(5), Description varchar(100), Unit varchar(50));")
+	cur.execute("CREATE TABLE mkwh( MSN varchar(20), YYYYMM int, Value varchar(20), PK_mkwh PRIMARY KEY (MSN, YYYYMM), FK_mm FOREIGN KEY (MSN) REFERENCES mkwh_misc (MSN));")    
+	cur.execute("CREATE TABLE mkwh_misc(MSN varchar(20), Column_Order varchar(5), Description varchar(100), Unit varchar(50), PK_mkwh_misc PRIMARY KEY (MSN));")
   
 	reader = csv.reader(csvfile)
 	headings = reader.next()
@@ -131,7 +131,7 @@ with open('/home/cjnitta/ecs165a/EIA_MkWh_2015.csv', 'r') as csvfile:
 
 with open('/home/cjnitta/ecs165a/HHV2PUB.CSV', 'r') as csvfile:
 	print"hh"
-	cur.execute("CREATE TABLE Household(HOUSEID int, VARSTRAT int, WTHHFIN varchar(20), DRVRCNT int, CDIVMSAR int, CENSUS_D int, CENSUS_R int, HH_HISP int, HH_RACE int, HHFAMINC int, HHRELATD int, HHRESP int, HHSIZE int, HHSTATE varchar(2), HHSTFIPS int, HHVEHCNT int, HOMEOWN int, HOMETYPE int, MSACAT int, MSASIZE int, NUMADLT int, RAIL int, RESP_CNT int, SCRESP int, TRAVDAY int, URBAN int, URBANSIZE int, URBRUR int, WRKCOUNT int, TDAYDATE int, FLAG100 int, LIF_CYC int, CNTTDHH int, HBHUR varchar(2), HTRESDN int, HTHTNRNT int, HTPPOPDN int, HTEEMPDN int, HBRESDN int, HBHTNRNT int, HBPPOPDN int, HH_CBSA varchar(5), HHC_MSA varchar(5));")
+	cur.execute("CREATE TABLE Household(HOUSEID int, VARSTRAT int, WTHHFIN varchar(20), DRVRCNT int, CDIVMSAR int, CENSUS_D int, CENSUS_R int, HH_HISP int, HH_RACE int, HHFAMINC int, HHRELATD int, HHRESP int, HHSIZE int, HHSTATE varchar(2), HHSTFIPS int, HHVEHCNT int, HOMEOWN int, HOMETYPE int, MSACAT int, MSASIZE int, NUMADLT int, RAIL int, RESP_CNT int, SCRESP int, TRAVDAY int, URBAN int, URBANSIZE int, URBRUR int, WRKCOUNT int, TDAYDATE int, FLAG100 int, LIF_CYC int, CNTTDHH int, HBHUR varchar(2), HTRESDN int, HTHTNRNT int, HTPPOPDN int, HTEEMPDN int, HBRESDN int, HBHTNRNT int, HBPPOPDN int, HH_CBSA varchar(5), HHC_MSA varchar(5), PK_household PRIMARY KEY HOUSEID);")
 	
 	reader = csv.reader(csvfile)
 	headings = reader.next()
@@ -168,7 +168,7 @@ with open('/home/cjnitta/ecs165a/HHV2PUB.CSV', 'r') as csvfile:
 
 with open('/home/cjnitta/ecs165a/DAYV2PUB.CSV', 'r') as csvfile:
     print "Day"
-    cur.execute("CREATE TABLE Daytrip(HOUSEID int, PERSONID int, FRSTHM int, OUTOFTWN int, ONTD_P1 int, ONTD_P2 int, ONTD_P3 int, ONTD_P4 int, ONTD_P5 int, ONTD_P6 int, ONTD_P7 int, ONTD_P8 int, ONTD_P9 int, ONTD_P10 int, ONTD_P11 int, ONTD_P12 int, ONTD_P13 int, ONTD_P14 int, ONTD_P15 int, TDCASEID bigint, HH_HISP int, HH_RACE int, DRIVER int, R_SEX int, WORKER int, DRVRCNT int, HHFAMINC int, HHSIZE int, HHVEHCNT int, NUMADLT int, FLAG100 int, LIF_CYC int, TRIPPURP varchar(8), AWAYHOME int, CDIVMSAR int, CENSUS_D int, CENSUS_R int, DROP_PRK int, DRVR_FLG int, EDUC int, ENDTIME int, HH_ONTD int, HHMEMDRV int, HHRESP int, HHSTATE varchar(2), HHSTFIPS int, INTSTATE int, MSACAT int, MSASIZE int, NONHHCNT int, NUMONTRP int, PAYTOLL int, PRMACT int, PROXY int, PSGR_FLG int, R_AGE int, RAIL int, STRTTIME int, TRACC1 int, TRACC2 int, TRACC3 int, TRACC4 int, TRACC5 int, TRACCTM int, TRAVDAY int, TREGR1 int, TREGR2 int, TREGR3 int, TREGR4 int, TREGR5 int, TREGRTM int, TRPACCMP int, TRPHHACC int, TRPHHVEH int, TRPTRANS int, TRVL_MIN int, TRVLCMIN int, TRWAITTM int, URBAN int, URBANSIZE int, URBRUR int, USEINTST int, USEPUBTR int, VEHID int, WHODROVE int, WHYFROM int, WHYTO int, WHYTRP1S int, WRKCOUNT int, DWELTIME int, WHYTRP90 int, TDTRPNUM int, TDWKND int, TDAYDATE int, TRPMILES int, WTTRDFIN varchar(20), VMT_MILE int, PUBTRANS int, HOMEOWN int, HOMETYPE int, HBHUR varchar(2), HTRESDN int, HTHTNRNT int, HTPPOPDN int, HTEEMPDN int, HBRESDN int, HBHTNRNT int, HBPPOPDN int, GASPRICE varchar(20), VEHTYPE int, HH_CBSA varchar(5), HHC_MSA varchar(5));")
+    cur.execute("CREATE TABLE Daytrip(HOUSEID int, PERSONID int, FRSTHM int, OUTOFTWN int, ONTD_P1 int, ONTD_P2 int, ONTD_P3 int, ONTD_P4 int, ONTD_P5 int, ONTD_P6 int, ONTD_P7 int, ONTD_P8 int, ONTD_P9 int, ONTD_P10 int, ONTD_P11 int, ONTD_P12 int, ONTD_P13 int, ONTD_P14 int, ONTD_P15 int, TDCASEID bigint, HH_HISP int, HH_RACE int, DRIVER int, R_SEX int, WORKER int, DRVRCNT int, HHFAMINC int, HHSIZE int, HHVEHCNT int, NUMADLT int, FLAG100 int, LIF_CYC int, TRIPPURP varchar(8), AWAYHOME int, CDIVMSAR int, CENSUS_D int, CENSUS_R int, DROP_PRK int, DRVR_FLG int, EDUC int, ENDTIME int, HH_ONTD int, HHMEMDRV int, HHRESP int, HHSTATE varchar(2), HHSTFIPS int, INTSTATE int, MSACAT int, MSASIZE int, NONHHCNT int, NUMONTRP int, PAYTOLL int, PRMACT int, PROXY int, PSGR_FLG int, R_AGE int, RAIL int, STRTTIME int, TRACC1 int, TRACC2 int, TRACC3 int, TRACC4 int, TRACC5 int, TRACCTM int, TRAVDAY int, TREGR1 int, TREGR2 int, TREGR3 int, TREGR4 int, TREGR5 int, TREGRTM int, TRPACCMP int, TRPHHACC int, TRPHHVEH int, TRPTRANS int, TRVL_MIN int, TRVLCMIN int, TRWAITTM int, URBAN int, URBANSIZE int, URBRUR int, USEINTST int, USEPUBTR int, VEHID int, WHODROVE int, WHYFROM int, WHYTO int, WHYTRP1S int, WRKCOUNT int, DWELTIME int, WHYTRP90 int, TDTRPNUM int, TDWKND int, TDAYDATE int, TRPMILES int, WTTRDFIN varchar(20), VMT_MILE int, PUBTRANS int, HOMEOWN int, HOMETYPE int, HBHUR varchar(2), HTRESDN int, HTHTNRNT int, HTPPOPDN int, HTEEMPDN int, HBRESDN int, HBHTNRNT int, HBPPOPDN int, GASPRICE varchar(20), VEHTYPE int, HH_CBSA varchar(5), HHC_MSA varchar(5), PK_daytrip PRIMARY KEY (HOUSEID, PERSONID, TDTRPNUM), FK_daytrip_person FOREIGN KEY (HOUSEID, PERSONID) REFERENCES person(HOUSEID, PERSONID), FK_daytrip_household FOREIGN KEY (HOUSEID) REFERENCES household(HOUSEID), FK_daytrip_vehicle FOREIGN KEY (HOUSEID, VEHID) REFERENCES vehicle(HOUSEID, VEHID));")
 	
     reader = csv.reader(csvfile)
     headings = reader.next()
@@ -209,7 +209,7 @@ with open('/home/cjnitta/ecs165a/DAYV2PUB.CSV', 'r') as csvfile:
 
 with open('/home/cjnitta/ecs165a/VEHV2PUB.CSV', 'r') as csvfile:
 	print "vehicle"
-	cur.execute("CREATE TABLE Vehicle(HOUSEID int, WTHHFIN varchar(20), VEHID int, DRVRCNT int, HHFAMINC int, HHSIZE int, HHVEHCNT int, NUMADLT int, FLAG100 int, CDIVMSAR int, CENSUS_D int, CENSUS_R int, HHSTATE varchar(2), HHSTFIPS int, HYBRID int, MAKECODE varchar(5), MODLCODE varchar(5), MSACAT int, MSASIZE int, OD_READ int, RAIL int, TRAVDAY int, URBAN int, URBANSIZE int, URBRUR int, VEHCOMM int, VEHOWNMO int, VEHYEAR int, WHOMAIN int, WRKCOUNT int, TDAYDATE int, VEHAGE int, PERSONID int, HH_HISP int, HH_RACE int, HOMEOWN int, HOMETYPE int, LIF_CYC int, ANNMILES int, HBHUR varchar(2), HTRESDN int, HTHTNRNT int, HTPPOPDN int, HTEEMPDN int, HBRESDN int, HBHTNRNT int, HBPPOPDN int, BEST_FLG int, BESTMILE int, BEST_EDT int, BEST_OUT int, FUELTYPE int, GSYRGAL int, GSCOST varchar(20), GSTOTCST int, EPATMPG int, EPATMPGF int, EIADMPG int, VEHTYPE int, HH_CBSA varchar(5), HHC_MSA varchar(5));")
+	cur.execute("CREATE TABLE Vehicle(HOUSEID int, WTHHFIN varchar(20), VEHID int, DRVRCNT int, HHFAMINC int, HHSIZE int, HHVEHCNT int, NUMADLT int, FLAG100 int, CDIVMSAR int, CENSUS_D int, CENSUS_R int, HHSTATE varchar(2), HHSTFIPS int, HYBRID int, MAKECODE varchar(5), MODLCODE varchar(5), MSACAT int, MSASIZE int, OD_READ int, RAIL int, TRAVDAY int, URBAN int, URBANSIZE int, URBRUR int, VEHCOMM int, VEHOWNMO int, VEHYEAR int, WHOMAIN int, WRKCOUNT int, TDAYDATE int, VEHAGE int, PERSONID int, HH_HISP int, HH_RACE int, HOMEOWN int, HOMETYPE int, LIF_CYC int, ANNMILES int, HBHUR varchar(2), HTRESDN int, HTHTNRNT int, HTPPOPDN int, HTEEMPDN int, HBRESDN int, HBHTNRNT int, HBPPOPDN int, BEST_FLG int, BESTMILE int, BEST_EDT int, BEST_OUT int, FUELTYPE int, GSYRGAL int, GSCOST varchar(20), GSTOTCST int, EPATMPG int, EPATMPGF int, EIADMPG int, VEHTYPE int, HH_CBSA varchar(5), HHC_MSA varchar(5), PK_vehicle PRIMARY KEY (HOUSEID, VEHID), FK_vehicle_household FOREIGN KEY (HOUSEID) REFERENCES household(HOUSEID), FK_vehicle_person FOREIGN KEY (HOUSEID, PERSONID) REFERENCES person(HOUSEID, PERSONID));")
 	
 	reader = csv.reader(csvfile)
 	headings = reader.next()
@@ -243,7 +243,7 @@ with open('/home/cjnitta/ecs165a/VEHV2PUB.CSV', 'r') as csvfile:
 
 with open('/home/cjnitta/ecs165a/PERV2PUB.CSV', 'r') as csvfile:
 	print"person"
-	cur.execute("CREATE TABLE Person(HOUSEID int, PERSONID int, VARSTRAT int, WTPERFIN varchar(20), SFWGT int, HH_HISP int, HH_RACE int, DRVRCNT int, HHFAMINC int, HHSIZE int, HHVEHCNT int, NUMADLT int, WRKCOUNT int, FLAG100 int, LIF_CYC int, CNTTDTR int, BORNINUS int, CARRODE int, CDIVMSAR int, CENSUS_D int, CENSUS_R int, CONDNIGH int, CONDPUB int, CONDRIDE int, CONDRIVE int, CONDSPEC int, CONDTAX int, CONDTRAV int, DELIVER int, DIARY int, DISTTOSC int, DRIVER int, DTACDT int, DTCONJ int, DTCOST int, DTRAGE int, DTRAN int, DTWALK int, EDUC int, EVERDROV int, FLEXTIME int, FMSCSIZE int, FRSTHM int, FXDWKPL int, GCDWORK varchar(20), GRADE int, GT1JBLWK int, HHRESP int, HHSTATE varchar(2), HHSTFIPS int, ISSUE int, OCCAT int, LSTTRDAY int, MCUSED int, MEDCOND int, MEDCOND6 int, MOROFTEN int, MSACAT int, MSASIZE int, NBIKETRP int, NWALKTRP int, OUTCNTRY int, OUTOFTWN int, PAYPROF int, PRMACT int, PROXY int, PTUSED int, PURCHASE int, R_AGE int, R_RELAT int, R_SEX int, RAIL int, SAMEPLC int, SCHCARE int, SCHCRIM int, SCHDIST int, SCHSPD int, SCHTRAF int, SCHTRN1 int, SCHTRN2 int, SCHTYP int, SCHWTHR int, SELF_EMP int, TIMETOSC int, TIMETOWK int, TOSCSIZE int, TRAVDAY int, URBAN int, URBANSIZE int, URBRUR int, USEINTST int, USEPUBTR int, WEBUSE int, WKFMHMXX int, WKFTPT int, WKRMHM int, WKSTFIPS int, WORKER int, WRKTIME varchar(10), WRKTRANS int, YEARMILE int, YRMLCAP int, YRTOUS int, DISTTOWK int, TDAYDATE int, HOMEOWN int, HOMETYPE int, HBHUR varchar(2), HTRESDN int, HTHTNRNT int, HTPPOPDN int, HTEEMPDN int, HBRESDN int, HBHTNRNT int, HBPPOPDN int, HH_CBSA varchar(5), HHC_MSA varchar(5));")
+	cur.execute("CREATE TABLE Person(HOUSEID int, PERSONID int, VARSTRAT int, WTPERFIN varchar(20), SFWGT int, HH_HISP int, HH_RACE int, DRVRCNT int, HHFAMINC int, HHSIZE int, HHVEHCNT int, NUMADLT int, WRKCOUNT int, FLAG100 int, LIF_CYC int, CNTTDTR int, BORNINUS int, CARRODE int, CDIVMSAR int, CENSUS_D int, CENSUS_R int, CONDNIGH int, CONDPUB int, CONDRIDE int, CONDRIVE int, CONDSPEC int, CONDTAX int, CONDTRAV int, DELIVER int, DIARY int, DISTTOSC int, DRIVER int, DTACDT int, DTCONJ int, DTCOST int, DTRAGE int, DTRAN int, DTWALK int, EDUC int, EVERDROV int, FLEXTIME int, FMSCSIZE int, FRSTHM int, FXDWKPL int, GCDWORK varchar(20), GRADE int, GT1JBLWK int, HHRESP int, HHSTATE varchar(2), HHSTFIPS int, ISSUE int, OCCAT int, LSTTRDAY int, MCUSED int, MEDCOND int, MEDCOND6 int, MOROFTEN int, MSACAT int, MSASIZE int, NBIKETRP int, NWALKTRP int, OUTCNTRY int, OUTOFTWN int, PAYPROF int, PRMACT int, PROXY int, PTUSED int, PURCHASE int, R_AGE int, R_RELAT int, R_SEX int, RAIL int, SAMEPLC int, SCHCARE int, SCHCRIM int, SCHDIST int, SCHSPD int, SCHTRAF int, SCHTRN1 int, SCHTRN2 int, SCHTYP int, SCHWTHR int, SELF_EMP int, TIMETOSC int, TIMETOWK int, TOSCSIZE int, TRAVDAY int, URBAN int, URBANSIZE int, URBRUR int, USEINTST int, USEPUBTR int, WEBUSE int, WKFMHMXX int, WKFTPT int, WKRMHM int, WKSTFIPS int, WORKER int, WRKTIME varchar(10), WRKTRANS int, YEARMILE int, YRMLCAP int, YRTOUS int, DISTTOWK int, TDAYDATE int, HOMEOWN int, HOMETYPE int, HBHUR varchar(2), HTRESDN int, HTHTNRNT int, HTPPOPDN int, HTEEMPDN int, HBRESDN int, HBHTNRNT int, HBPPOPDN int, HH_CBSA varchar(5), HHC_MSA varchar(5), PK_person PRIMARY KEY (HOUSEID, PERSONID), FK_person_household FOREIGN KEY (HOUSEID) REFERENCES household(HOUSEID));")
 	
 	reader = csv.reader(csvfile)
 	headings = reader.next()
