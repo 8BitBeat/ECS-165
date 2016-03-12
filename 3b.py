@@ -13,7 +13,7 @@ for i in range(5,101,5):
                                             daytrip.VEHID = vehicle.VEHID AND \
                                             daytrip.VEHID >= 1 AND \
                                             EPATMPG > 0 \
-        WHERE TRPMILES >= 0 AND TRPMILES < " + str(i) +  " )AS VEHMAPPING;"
+        WHERE daytrip.WHODROVE = daytrip.PERSONID AND TRPMILES >= 0 AND TRPMILES < " + str(i) +  " )AS VEHMAPPING;"
     
     cur.execute(query)
     print("Average fuel economy of all miles traveled for trips less than " + str(i) + " is: " + str(cur.fetchall()))
