@@ -21,3 +21,4 @@ for i in range(5,101,5):
 
 cur.close()
 conn.close()
+
